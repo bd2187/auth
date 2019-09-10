@@ -12,9 +12,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-    res.end("hello world");
-});
+app.use("/users", require("./routes/users"));
+
 app.listen(PORT, () => {
     console.log(`server running on ${PORT}`);
 });

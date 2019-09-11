@@ -12,7 +12,7 @@ const schemas = {
 };
 
 module.exports = {
-    validateBody: function({ email, password }) {
+    validatSignup: function({ email, password }) {
         const result = Joi.validate({ email, password }, schemas.authSchema);
 
         return result;

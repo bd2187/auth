@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { validatSignup } = require("../utils/userValidation");
 const User = require("../models/user");
+const issueUserToken = require("../utils/issueUserToken");
 
 router.route("/signup").post(function(req, res) {
     let { email, password } = req.body;
@@ -23,13 +24,28 @@ router.route("/signup").post(function(req, res) {
                 return newUser.save();
             }
         })
-        .then(function(data) {
-            if (data.email) {
+        .then(function(newUser) {
+            if (newUser._id) {
+                return issueUserToken(newUser);
+            } else {
+                throw {
+                    message: `Failed to save ${email} to db`
+                };
+            }
+        })
+        .then(function(token) {
+            if (token) {
                 return res.json({
                     success: true,
                     message: `Successfully saved ${email} to db`,
-                    data
+                    data: {
+                        token
+                    }
                 });
+            } else {
+                throw {
+                    message: `Failed to save ${email} to db`
+                };
             }
         })
         .catch(function(err) {

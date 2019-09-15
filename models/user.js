@@ -14,11 +14,20 @@ userSchema.pre("save", function(next) {
         .then(salt => {
             if (salt) {
                 return bcrypt.hash(this.password, salt);
+            } else {
+                throw { message: "failed to generate salt" };
             }
         })
         .then(hash => {
-            this.password = hash;
+            if (hash) {
+                this.password = hash;
+            } else {
+                throw { message: "failed to hash password" };
+            }
             next();
+        })
+        .catch(err => {
+            next(err);
         });
 });
 

@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const passport = require("passport");
 require("dotenv").config();
 
 const app = express();
@@ -20,7 +21,8 @@ db.once("open", () => {
 });
 
 // Set up middleware
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
+require("./utils/passport");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

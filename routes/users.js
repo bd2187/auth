@@ -21,40 +21,17 @@ router.route("/signup").post(function(req, res) {
 
     User.find({ email })
         .then(function(data) {
-            // Check if user exists in DB
             if (data.length > 0) {
                 throw {
                     message: `${email} already exists in db`
                 };
             } else {
-                // Generate salt to hash password
-                return bcrypt.genSalt(10);
-            }
-        })
-        .then(function(salt) {
-            if (salt) {
-                // hash user password
-                return bcrypt.hash(password, salt);
-            } else {
-                throw {
-                    message: "failed to generate salt for password"
-                };
-            }
-        })
-        .then(function(hash) {
-            if (hash) {
-                // save credentials to db
-                const newUser = new User({ email, password: hash });
+                const newUser = new User({ email, password });
                 return newUser.save();
-            } else {
-                throw {
-                    message: "failed to hash salt for password"
-                };
             }
         })
         .then(function(newUser) {
             if (newUser._id) {
-                // generate JWT to send back to client
                 return issueUserToken(newUser);
             } else {
                 throw {

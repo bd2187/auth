@@ -9,7 +9,7 @@ const issueUserToken = function(user) {
                 iat: new Date().getTime(),
                 expiresIn: "24h"
             },
-            "secret_will_be_encrypted_someday_maybe"
+            process.env.JWT_SECRET
         );
     } catch (err) {
         throw {

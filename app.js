@@ -22,7 +22,7 @@ db.once("open", () => {
 
 // Set up middleware
 // app.use(morgan("dev"));
-require("./utils/passport");
+require("./utils/passport")(passport);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

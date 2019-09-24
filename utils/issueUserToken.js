@@ -5,6 +5,7 @@ const issueUserToken = function(user) {
         return jwt.sign(
             {
                 iss: "bd",
+                email: user.email,
                 sub: user._id,
                 iat: new Date().getTime(),
                 expiresIn: "24h"

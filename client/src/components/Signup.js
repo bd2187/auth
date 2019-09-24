@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Signup = () => {
+const Signup = ({ signUpUser, error }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -17,13 +17,15 @@ const Signup = () => {
         }
     };
 
-    const signUpUser = function(evt) {
+    const submitForm = function(evt) {
         evt.preventDefault();
+
+        signUpUser(email, password);
     };
 
     return (
         <>
-            <form onSubmit={signUpUser}>
+            <form onSubmit={submitForm}>
                 <div className="form-group">
                     <input
                         className="form-control"
@@ -47,6 +49,11 @@ const Signup = () => {
                         placeholder="password"
                     />
                 </div>
+
+                {error.message ? (
+                    <div className="alert alert-danger">{error.message}</div>
+                ) : null}
+
                 <input
                     type="submit"
                     value="Sign up"

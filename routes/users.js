@@ -45,7 +45,8 @@ router.route("/signup").post(function(req, res) {
                     success: true,
                     message: `Successfully saved ${email} to db`,
                     data: {
-                        token
+                        token,
+                        email
                     }
                 });
             } else {

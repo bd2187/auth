@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 
 export function signUpUser(email, password) {
     return function(dispatch) {
@@ -16,9 +15,6 @@ export function signUpUser(email, password) {
                         payload: res.data
                     });
 
-                    var decodedToken = jwtDecode(res.data.data.token);
-                    console.log(decodedToken);
-
                     localStorage.setItem("token", res.data.data.token);
                 } else {
                     dispatch({
@@ -34,4 +30,12 @@ export function signUpUser(email, password) {
                 });
             });
     };
+}
+
+export function signInUser() {}
+
+export function signOutUser() {
+    localStorage.removeItem("token");
+
+    return { type: "SIGN_OUT_USER", payload: "" };
 }

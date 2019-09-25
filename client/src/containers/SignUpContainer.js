@@ -5,11 +5,11 @@ import Signup from "../components/Signup";
 import { signUpUser } from "../actions/authActions";
 
 const SignUpContainer = props => {
-    if (props.isAuthenticated) {
-        return <Redirect to="/" />;
-    } else {
-        return <Signup signUpUser={props.signUpUser} error={props.error} />;
-    }
+    return props.isAuthenticated ? (
+        <Redirect to="/" />
+    ) : (
+        <Signup signUpUser={props.signUpUser} error={props.error} />
+    );
 };
 
 const mapStateToProps = state => {

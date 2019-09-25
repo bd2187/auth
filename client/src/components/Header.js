@@ -1,46 +1,50 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
+const Header = ({ isAuthenticated, signOutUser }) => {
+    return (
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <Link className="navbar-brand" to="/">
+                LOGO
+            </Link>
+            <div className="collapse navbar-collapse">
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard">
+                            dashboard
+                        </Link>
+                    </li>
+                </ul>
 
-    render() {
-        return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <Link className="navbar-brand" to="/">
-                    LOGO
-                </Link>
-                <div className="collapse navbar-collapse">
-                    <ul className="navbar-nav mr-auto">
+                <ul className="nav navbar-nav ml-auto">
+                    {isAuthenticated ? (
                         <li className="nav-item">
-                            <Link className="nav-link" to="/dashboard">
-                                dashboard
-                            </Link>
-                        </li>
-                    </ul>
-                    <ul className="nav navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/signup">
-                                sign up
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/signin">
-                                sign in
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/signout">
+                            <Link
+                                className="nav-link"
+                                to="/"
+                                onClick={signOutUser}
+                            >
                                 sign out
                             </Link>
                         </li>
-                    </ul>
-                </div>
-            </nav>
-        );
-    }
-}
+                    ) : (
+                        <>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/signup">
+                                    sign up
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/signin">
+                                    sign in
+                                </Link>
+                            </li>
+                        </>
+                    )}
+                </ul>
+            </div>
+        </nav>
+    );
+};
 
 export default Header;

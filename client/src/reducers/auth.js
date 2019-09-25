@@ -1,6 +1,7 @@
 const defaultState = {
     isAuthenticated: false,
     token: "",
+    email: "",
     error: {},
     loading: false
 };
@@ -14,14 +15,30 @@ export default (state = defaultState, action) => {
                 ...state,
                 loading: false,
                 token: action.payload.data.token,
-                isAuthenticated: true
+                email: action.payload.data.email,
+                isAuthenticated: true,
+                error: {}
             };
 
         case "SIGN_IN_USER":
-            break;
+            return {
+                ...state,
+                loading: false,
+                token: action.payload.data.token,
+                email: action.payload.data.email,
+                isAuthenticated: true,
+                error: {}
+            };
 
         case "SIGN_OUT_USER":
-            break;
+            return {
+                ...state,
+                loading: false,
+                token: "",
+                email: "",
+                isAuthenticated: false,
+                error: {}
+            };
 
         case "AUTH_ERROR":
             return {
@@ -32,6 +49,4 @@ export default (state = defaultState, action) => {
         default:
             return state;
     }
-
-    return state;
 };

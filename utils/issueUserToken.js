@@ -8,7 +8,7 @@ const issueUserToken = function(user) {
                 email: user.email,
                 sub: user._id,
                 iat: new Date().getTime(),
-                expiresIn: "24h"
+                expiresIn: new Date().getTime() + 86400000
             },
             process.env.JWT_SECRET
         );

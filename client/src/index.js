@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import App from "./components/App";
 import thunk from "redux-thunk";
 import combinedReducers from "./reducers/reducers";
+import setAuthHeader from "./utils/setAuthHeader";
 
 const store = createStore(
     combinedReducers,
@@ -20,20 +21,33 @@ const store = createStore(
 );
 
 const userToken = localStorage.getItem("token");
+
+// Check if token is in local storage
 if (userToken) {
     const decodedToken = jwtDecode(userToken);
+    const tokenExpiration = decodedToken.expiresIn;
+    const currentTime = new Date().getTime();
 
-    // todo: check exp date on token. if exp date is greater than date.now,
-    // log user out of app. otherwise, log them in app
-    store.dispatch({
-        type: "SIGN_IN_USER",
-        payload: {
-            data: {
-                token: userToken,
-                email: decodedToken.email
+    // If token is expired, dispatch 'SIGN_OUT_USER' action.
+    // Otherwise, disptach the 'SIGN_IN_USER' action
+    if (currentTime > tokenExpiration) {
+        store.dispatch({
+            type: "SIGN_OUT_USER",
+            payload: ""
+        });
+        setAuthHeader(null);
+    } else {
+        store.dispatch({
+            type: "SIGN_IN_USER",
+            payload: {
+                data: {
+                    token: userToken,
+                    email: decodedToken.email
+                }
             }
-        }
-    });
+        });
+        setAuthHeader(userToken);
+    }
 }
 
 ReactDOM.render(

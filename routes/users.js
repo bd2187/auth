@@ -70,7 +70,7 @@ router.route("/signin").post(function(req, res) {
     const isValid = validatSignup({ email, password });
 
     if (isValid.error) {
-        return res.status(400).json(isValid);
+        return res.json(isValid);
     }
 
     var userObj = {};
@@ -107,7 +107,7 @@ router.route("/signin").post(function(req, res) {
         })
         .catch(function(err) {
             err.success = false;
-            return res.status(400).json(err);
+            return res.json(err);
         });
 });
 
